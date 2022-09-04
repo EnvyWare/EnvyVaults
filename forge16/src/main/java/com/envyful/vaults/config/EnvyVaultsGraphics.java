@@ -20,6 +20,7 @@ import java.util.List;
 public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
     private MainUI mainUI = new MainUI();
+    private VaultSettings settingsUI = new VaultSettings();
 
     public EnvyVaultsGraphics() {
         super();
@@ -27,6 +28,10 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
     public MainUI getMainUI() {
         return this.mainUI;
+    }
+
+    public VaultSettings getSettingsUI() {
+        return this.settingsUI;
     }
 
     @ConfigSerializable
@@ -122,6 +127,20 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
                 .positions(Pair.of(4, 5))
                 .build();
 
+        private ExtendedConfigItem nextPageButton = ExtendedConfigItem.builder()
+                .type("minecraft:stone")
+                .name("NEXT PAGE")
+                .positions(Pair.of(2, 2))
+                .build();
+
+        private ExtendedConfigItem previousPageButton = ExtendedConfigItem.builder()
+                .type("minecraft:stone")
+                .name("PREVIOUS PAGE")
+                .positions(Pair.of(3, 2))
+                .build();
+
+        private List<Integer> displayPositions = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
+
         public VaultSettings() {
         }
 
@@ -131,6 +150,18 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         public ExtendedConfigItem getBackButton() {
             return this.backButton;
+        }
+
+        public List<Integer> getDisplayPositions() {
+            return this.displayPositions;
+        }
+
+        public ExtendedConfigItem getNextPageButton() {
+            return this.nextPageButton;
+        }
+
+        public ExtendedConfigItem getPreviousPageButton() {
+            return this.previousPageButton;
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.envyful.vaults.player;
 
+import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
+import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
@@ -74,6 +76,10 @@ public class PlayerVault {
         }
 
         return builder.build();
+    }
+
+    public void setDisplay(ConfigItem item) {
+        this.display = UtilConfigItem.fromConfigItem(item);
     }
 
     public static class VaultContainer extends Container {

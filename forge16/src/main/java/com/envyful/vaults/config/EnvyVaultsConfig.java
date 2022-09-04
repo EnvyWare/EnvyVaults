@@ -1,6 +1,8 @@
 package com.envyful.vaults.config;
 
 import com.envyful.api.config.data.ConfigPath;
+import com.envyful.api.config.type.ConfigItem;
+import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.player.SaveMode;
@@ -25,6 +27,10 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
             "one", new VaultGroups("example", "com.envyware.example", 3)
     );
 
+    private Map<String, ConfigItem> showOptions = ImmutableMap.of(
+            "one", new ConfigItem("minecraft:diamond", 1, "this isn't even important", Lists.newArrayList())
+    );
+
     public EnvyVaultsConfig() {
         super();
     }
@@ -39,6 +45,10 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
 
     public List<VaultGroups> getVaults() {
         return Lists.newArrayList(this.vaultGroups.values());
+    }
+
+    public List<ConfigItem> getShowOptions() {
+        return Lists.newArrayList(this.showOptions.values());
     }
 
     @ConfigSerializable
