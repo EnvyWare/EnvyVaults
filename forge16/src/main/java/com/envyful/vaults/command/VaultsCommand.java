@@ -19,7 +19,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
         }
 )
 @Permissible("envy.vaults.command.vaults")
-@SubCommands(OpenCommand.class)
+@SubCommands({OpenCommand.class, ReloadCommand.class})
 public class VaultsCommand {
 
     @CommandProcessor
