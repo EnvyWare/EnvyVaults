@@ -86,6 +86,10 @@ public class PlayerVault {
         this.display = UtilConfigItem.fromConfigItem(item);
     }
 
+    public void rename(String name) {
+        this.name = name;
+    }
+
     public static class VaultContainer extends Container {
 
         private PlayerVault vault;

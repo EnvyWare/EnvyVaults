@@ -3,27 +3,25 @@ package com.envyful.vaults.command;
 import com.envyful.api.command.annotate.Child;
 import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.Permissible;
-import com.envyful.api.command.annotate.SubCommands;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.player.PlayerVault;
+import joptsimple.internal.Strings;
 
 @Command(
-        value = "open",
-        description = "Opens the vault",
-        aliases = {
-                "o"
-        }
+        value = "rename",
+        description = "Renames the vault"
 )
-@Permissible("envy.vaults.command.open")
+@Permissible("envy.vaults.command.rename")
 @Child
-public class OpenCommand {
+public class RenameCommand {
 
     @CommandProcessor
-    public void onCommand(@Sender ForgeEnvyPlayer sender, @Argument PlayerVault vault) {
-        vault.open(sender);
-        //TOOD: send message
+    public void onCommand(@Sender ForgeEnvyPlayer sender, @Argument PlayerVault vault, String[] args) {
+        vault.rename(Strings.join(args, " "));
+        //TODO: send message
     }
 }
