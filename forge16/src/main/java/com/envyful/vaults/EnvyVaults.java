@@ -6,15 +6,15 @@ import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
-import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
+import com.envyful.vaults.command.VaultsCommand;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.envyful.vaults.player.VaultsAttribute;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
@@ -58,6 +58,11 @@ public class EnvyVaults {
                 this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
             });
         }
+    }
+
+    @SubscribeEvent
+    public void registerCommands(RegisterCommandsEvent event) {
+        this.commandFactory.registerCommand(event.getDispatcher(), new VaultsCommand());
     }
 
     public void reloadConfig() {
