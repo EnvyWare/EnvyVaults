@@ -51,6 +51,10 @@ public class PlayerVault {
         return this.id;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public void open(ForgeEnvyPlayer player) {
         UtilForgeConcurrency.runSync(() -> {
             player.getParent().closeContainer();

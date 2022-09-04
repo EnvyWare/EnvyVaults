@@ -45,6 +45,16 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
         return null;
     }
 
+    public PlayerVault getVault(String name) {
+        for (PlayerVault vault : this.vaults) {
+            if (vault.getName().equalsIgnoreCase(name)) {
+                return vault;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public void load() {
 

@@ -52,7 +52,7 @@ public class VaultsMainUI {
                         if (clickType == Displayable.ClickType.LEFT) {
                             playerVault.open(player);
                         } else {
-                            //TODO:
+                            VaultEditUI.open(player, playerVault, 1);
                         }
                     })
                     .build());

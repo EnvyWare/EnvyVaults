@@ -1,5 +1,6 @@
 package com.envyful.vaults;
 
+import com.envyful.api.command.sender.SenderTypeFactory;
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
@@ -7,14 +8,19 @@ import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
+import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
+import com.envyful.api.type.UtilParse;
+import com.envyful.vaults.command.ForgeEnvyPlayerSenderType;
 import com.envyful.vaults.command.VaultsCommand;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
+import com.envyful.vaults.player.PlayerVault;
 import com.envyful.vaults.player.VaultsAttribute;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -68,6 +74,36 @@ public class EnvyVaults {
 
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
+        SenderTypeFactory.register(new ForgeEnvyPlayerSenderType());
+
+        this.commandFactory.registerInjector(PlayerVault.class, (sender, args) -> {
+            if (!(sender instanceof ServerPlayerEntity)) {
+                return null;
+            }
+
+            ForgeEnvyPlayer player = this.playerManager.getPlayer(((ServerPlayerEntity) sender));
+            VaultsAttribute attribute = player.getAttribute(EnvyVaults.class);
+            int id = UtilParse.parseInteger(args[0]).orElse(-1) - 1;
+
+            if (id < 0) {
+                PlayerVault vault = attribute.getVault(args[0]);
+
+                if (vault != null) {
+                    return vault;
+                }
+
+                //TODO: error message
+                return null;
+            }
+
+            if (id >= attribute.getVaults().size()) {
+                //TOOD: error message
+                return null;
+            }
+
+            return attribute.getVault(id);
+        });
+
         this.commandFactory.registerCommand(event.getDispatcher(), new VaultsCommand());
     }
 
