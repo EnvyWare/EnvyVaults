@@ -19,8 +19,14 @@ import java.util.List;
 @ConfigPath("config/EnvyVaults/guis.yml")
 public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
+    private MainUI mainUI = new MainUI();
+
     public EnvyVaultsGraphics() {
         super();
+    }
+
+    public MainUI getMainUI() {
+        return this.mainUI;
     }
 
     @ConfigSerializable
@@ -45,6 +51,12 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
                 .positions(Pair.of(3, 2))
                 .build();
 
+        private ConfigItem cannotAccessThisVault = new ConfigItem(
+                "minecraft:barrier", 1, "&cMore perms", Lists.newArrayList()
+        );
+
+        private VaultDisplay display;
+
         public MainUI() {
         }
 
@@ -62,6 +74,37 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         public ExtendedConfigItem getPreviousPageButton() {
             return this.previousPageButton;
+        }
+
+        public ConfigItem getCannotAccessThisVault() {
+            return this.cannotAccessThisVault;
+        }
+
+        public VaultDisplay getDisplay() {
+            return this.display;
+        }
+    }
+
+    @ConfigSerializable
+    public static class VaultDisplay {
+
+        private String name;
+        private List<String> lore;
+
+        public VaultDisplay(String name, List<String> lore) {
+            this.name = name;
+            this.lore = lore;
+        }
+
+        public VaultDisplay() {
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public List<String> getLore() {
+            return this.lore;
         }
     }
 }
