@@ -11,6 +11,7 @@ import com.envyful.api.forge.player.ForgePlayerManager;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.vaults.config.EnvyVaultsConfig;
+import com.envyful.vaults.config.EnvyVaultsGraphics;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,6 +31,7 @@ public class EnvyVaults {
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private EnvyVaultsConfig config;
+    private EnvyVaultsGraphics graphics;
     private Database database;
 
     public EnvyVaults() {
@@ -55,6 +57,7 @@ public class EnvyVaults {
     public void reloadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(EnvyVaultsConfig.class);
+            this.graphics = YamlConfigFactory.getInstance(EnvyVaultsGraphics.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,6 +77,10 @@ public class EnvyVaults {
 
     public EnvyVaultsConfig getConfig() {
         return this.config;
+    }
+
+    public EnvyVaultsGraphics getGraphics() {
+        return this.graphics;
     }
 
     public Database getDatabase() {
