@@ -12,6 +12,7 @@ import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
+import com.envyful.vaults.player.VaultsAttribute;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,6 +26,8 @@ public class EnvyVaults {
 
     public static String MOD_ID = "envyvaults";
 
+    private static EnvyVaults instance;
+
     private Logger logger = LogManager.getLogger(MOD_ID);
 
     private ForgePlayerManager playerManager = new ForgePlayerManager();
@@ -35,6 +38,7 @@ public class EnvyVaults {
     private Database database;
 
     public EnvyVaults() {
+        instance = this;
         UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -46,6 +50,8 @@ public class EnvyVaults {
         if (this.config.getSaveMode() == SaveMode.JSON) {
             this.playerManager.setSaveManager(new JsonSaveManager<>());
         }
+
+        this.playerManager.registerAttribute(this, VaultsAttribute.class);
 
         if (this.config.getSaveMode() == SaveMode.MYSQL) {
             UtilConcurrency.runAsync(() -> {
@@ -61,6 +67,10 @@ public class EnvyVaults {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static EnvyVaults getInstance() {
+        return instance;
     }
 
     public Logger getLogger() {
