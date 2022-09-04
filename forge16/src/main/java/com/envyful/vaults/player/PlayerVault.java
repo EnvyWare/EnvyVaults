@@ -16,10 +16,14 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.SCloseWindowPacket;
 import net.minecraft.network.play.server.SOpenWindowPacket;
 import net.minecraft.util.text.StringTextComponent;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class PlayerVault {
@@ -88,6 +92,35 @@ public class PlayerVault {
 
     public void rename(String name) {
         this.name = name;
+    }
+
+    public void load(String name, ItemStack display, List<ItemStack> items) {
+        this.name = name;
+        this.display = display;
+        this.items = items;
+    }
+
+    public void save(PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setInt(2, this.id);
+        preparedStatement.setString(3, this.name);
+        preparedStatement.setString(3, this.display.save(new CompoundNBT()).toString());
+        preparedStatement.setString(4, this.getItemSave().toString());
+    }
+
+    private CompoundNBT getItemSave() {
+        CompoundNBT itemsTag = new CompoundNBT();
+        ListNBT list = new ListNBT();
+
+        for (int i = 0; i < this.items.size(); i++) {
+            CompoundNBT itemTag = new CompoundNBT();
+            ItemStack itemStack = this.items.get(i);
+            itemTag.putInt("slot", i);
+            itemTag.put("item", itemStack.save(new CompoundNBT()));
+            list.add(itemsTag);
+        }
+
+        itemsTag.put("items", list);
+        return itemsTag;
     }
 
     public static class VaultContainer extends Container {
