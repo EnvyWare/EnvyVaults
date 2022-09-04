@@ -32,7 +32,7 @@ public class VaultsMainUI {
             int position = config.getVaultPositions().get(i);
             int posX = position % 9;
             int posY = position / 9;
-            int vaultId = (page * config.getVaultPositions().size());
+            int vaultId = ((page - 1) * config.getVaultPositions().size()) + i;
 
             if (!attribute.canAccess(vaultId)) {
                 pane.set(posX, posY, GuiFactory.displayable(UtilConfigItem.fromConfigItem(config.getCannotAccessThisVault())));

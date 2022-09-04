@@ -8,6 +8,7 @@ import com.envyful.api.player.attribute.PlayerAttribute;
 import com.envyful.api.player.save.attribute.DataDirectory;
 import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.config.EnvyVaultsConfig;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.UUID;
@@ -56,11 +57,19 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
 
     @Override
     public void postLoad() {
+        this.vaults = Lists.newArrayList();
+
         for (EnvyVaultsConfig.VaultGroups vault : this.manager.getConfig().getVaults()) {
             if (UtilPlayer.hasPermission(this.getParent().getParent(), vault.getPermission())) {
                 if (vault.getVaultNumber() > this.allowedVaults) {
                     this.allowedVaults = vault.getVaultNumber();
                 }
+            }
+        }
+
+        for (int i = 0; i < this.allowedVaults; i++) {
+            if (this.getVault(i) == null) {
+                this.vaults.add(new PlayerVault(i));
             }
         }
     }

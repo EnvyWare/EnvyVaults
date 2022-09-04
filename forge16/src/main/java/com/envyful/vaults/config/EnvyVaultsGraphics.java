@@ -55,7 +55,7 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
                 "minecraft:barrier", 1, "&cMore perms", Lists.newArrayList()
         );
 
-        private VaultDisplay display;
+        private VaultDisplay display = new VaultDisplay("%vault_name%", Lists.newArrayList("losers"));
 
         public MainUI() {
         }
@@ -105,6 +105,32 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         public List<String> getLore() {
             return this.lore;
+        }
+    }
+
+    @ConfigSerializable
+    public static class VaultSettings {
+
+        private ConfigInterface guiSettings = new ConfigInterface(
+                "EnvyVaults", 6, ConfigInterface.FillType.BLOCK.name(), ImmutableMap.of(
+                "one", new ConfigItem("minecraft:black_stained_glass_pane", 1, "", Lists.newArrayList()))
+        );
+
+        private ExtendedConfigItem backButton = ExtendedConfigItem.builder()
+                .type("pixelmon:eject_button")
+                .name("&c&lBACK")
+                .positions(Pair.of(4, 5))
+                .build();
+
+        public VaultSettings() {
+        }
+
+        public ConfigInterface getGuiSettings() {
+            return this.guiSettings;
+        }
+
+        public ExtendedConfigItem getBackButton() {
+            return this.backButton;
         }
     }
 }

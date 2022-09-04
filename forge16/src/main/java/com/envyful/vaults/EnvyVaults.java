@@ -6,7 +6,9 @@ import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
 import com.envyful.vaults.command.VaultsCommand;
@@ -16,15 +18,17 @@ import com.envyful.vaults.player.VaultsAttribute;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+@Mod(EnvyVaults.MOD_ID)
 public class EnvyVaults {
 
-    public static String MOD_ID = "envyvaults";
+    public static final String MOD_ID = "envyvaults";
 
     private static EnvyVaults instance;
 
@@ -41,6 +45,8 @@ public class EnvyVaults {
         instance = this;
         UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);
+
+        GuiFactory.setPlatformFactory(new ForgeGuiFactory());
     }
 
     @SubscribeEvent
