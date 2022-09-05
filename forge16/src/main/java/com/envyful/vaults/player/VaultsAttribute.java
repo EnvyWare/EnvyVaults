@@ -89,12 +89,12 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
                 String display = resultSet.getString("display");
                 ListNBT itemList = JsonToNBT.parseTag(items).getList("items", Constants.NBT.TAG_COMPOUND);
                 ItemStack displayItem = ItemStack.of(JsonToNBT.parseTag(display));
-                List<ItemStack> guiItems = new ArrayList<>(54);
+                List<ItemStack> guiItems = Lists.newArrayList();
 
                 for (INBT inbt : itemList) {
                     CompoundNBT tag = (CompoundNBT) inbt;
                     int slot = tag.getInt("slot");
-                    ItemStack item = ItemStack.of((CompoundNBT) tag.get("item"));
+                    ItemStack item = ItemStack.of(tag.getCompound("item"));
 
                     guiItems.set(slot, item);
                 }
@@ -138,7 +138,9 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
     }
 
     private void initData() {
-        this.vaults = Lists.newArrayList();
+        if (this.vaults == null) {
+            this.vaults = Lists.newArrayList();
+        }
 
         for (EnvyVaultsConfig.VaultGroups vault : this.manager.getConfig().getVaults()) {
             if (UtilPlayer.hasPermission(this.getParent().getParent(), vault.getPermission())) {
@@ -163,7 +165,7 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
             VaultsAttribute attribute = new VaultsAttribute(uuid);
 
             JsonArray vaults = asJsonObject.get("vaults").getAsJsonArray();
-            List<PlayerVault> loadedVaults = Lists.newArrayList();
+            List<PlayerVault> loadedVaults = new ArrayList<>(54);
 
             for (JsonElement vault : vaults) {
                 try {
@@ -171,20 +173,20 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
                     int vaultId = vaultObject.get("id").getAsInt();
                     String name = vaultObject.get("name").getAsString();
                     ItemStack display = ItemStack.of(JsonToNBT.parseTag(vaultObject.get("display").getAsString()));
-                    List<ItemStack> guiItems = new ArrayList<>(54);
+                    List<ItemStack> guiItems = Lists.newArrayList();
+                    CompoundNBT loadedNBT = JsonToNBT.parseTag(vaultObject.get("items").getAsString());
 
-                    for (JsonElement itemElement : vaultObject.get("items").getAsJsonArray()) {
-                        JsonObject itemObject = itemElement.getAsJsonObject();
-                        int slot = itemObject.get("slot").getAsInt();
-                        ItemStack item = ItemStack.of((CompoundNBT) JsonToNBT.parseTag(itemObject.get("item").getAsString()));
-
-                        guiItems.set(slot, item);
+                    for (INBT itemElement : loadedNBT.getList("items", Constants.NBT.TAG_COMPOUND)) {
+                        CompoundNBT itemObject = (CompoundNBT) itemElement;
+                        int slot = itemObject.getInt("slot");
+                        ItemStack item = ItemStack.of(itemObject.getCompound("item"));
+                        guiItems.add(slot, item);
                     }
 
                     PlayerVault loadedVault = new PlayerVault(vaultId, name, guiItems, display);
                     loadedVaults.add(loadedVault);
                 } catch (CommandSyntaxException e) {
-                    throw new RuntimeException(e);
+                    EnvyVaults.getInstance().getLogger().catching(e);
                 }
             }
 

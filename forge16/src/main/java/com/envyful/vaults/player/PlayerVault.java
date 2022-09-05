@@ -15,6 +15,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.AirItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -115,9 +116,14 @@ public class PlayerVault {
         for (int i = 0; i < this.items.size(); i++) {
             CompoundNBT itemTag = new CompoundNBT();
             ItemStack itemStack = this.items.get(i);
+
+            if (itemStack == null) {
+                continue;
+            }
+
             itemTag.putInt("slot", i);
             itemTag.put("item", itemStack.save(new CompoundNBT()));
-            list.add(itemsTag);
+            list.add(itemTag);
         }
 
         itemsTag.put("items", list);
@@ -186,7 +192,15 @@ public class PlayerVault {
             ((ServerPlayerEntity) playerIn).connection.send(closeWindowServer);
             ((ServerPlayerEntity) playerIn).containerCounter = 0;
             ((ServerPlayerEntity) playerIn).refreshContainer(playerIn.containerMenu, playerIn.containerMenu.getItems());
-            vault.items = Lists.newArrayList(this.getItems());
+            List<ItemStack> items = Lists.newArrayList();
+
+            for (Slot slot : this.slots) {
+                if (slot.container instanceof Inventory) {
+                    items.add(slot.getItem());
+                }
+            }
+
+            this.vault.items = items;
         }
     }
 }
