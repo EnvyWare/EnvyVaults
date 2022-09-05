@@ -5,22 +5,22 @@ import com.envyful.api.forge.player.attribute.AbstractForgeAttribute;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.player.EnvyPlayer;
 import com.envyful.api.player.SaveMode;
-import com.envyful.api.player.attribute.PlayerAttribute;
 import com.envyful.api.player.save.attribute.DataDirectory;
+import com.envyful.api.player.save.attribute.TypeAdapter;
 import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.Queries;
 import com.google.common.collect.Lists;
+import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.realms.RealmsScreen;
 import net.minecraftforge.common.util.Constants;
 
-import java.net.ConnectException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 @DataDirectory("config/players/EnvyVaults/")
+@TypeAdapter(VaultsAttribute.TypeAdapter.class)
 public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
 
     private List<PlayerVault> vaults;
@@ -151,6 +152,61 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
             if (this.getVault(i) == null) {
                 this.vaults.add(new PlayerVault(i));
             }
+        }
+    }
+
+    public static class TypeAdapter implements JsonDeserializer<VaultsAttribute>, JsonSerializer<VaultsAttribute> {
+        @Override
+        public VaultsAttribute deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject asJsonObject = json.getAsJsonObject();
+            UUID uuid = UUID.fromString(asJsonObject.get("uuid").getAsString());
+            VaultsAttribute attribute = new VaultsAttribute(uuid);
+
+            JsonArray vaults = asJsonObject.get("vaults").getAsJsonArray();
+            List<PlayerVault> loadedVaults = Lists.newArrayList();
+
+            for (JsonElement vault : vaults) {
+                try {
+                    JsonObject vaultObject = vault.getAsJsonObject();
+                    int vaultId = vaultObject.get("id").getAsInt();
+                    String name = vaultObject.get("name").getAsString();
+                    ItemStack display = ItemStack.of(JsonToNBT.parseTag(vaultObject.get("display").getAsString()));
+                    List<ItemStack> guiItems = new ArrayList<>(54);
+
+                    for (JsonElement itemElement : vaultObject.get("items").getAsJsonArray()) {
+                        JsonObject itemObject = itemElement.getAsJsonObject();
+                        int slot = itemObject.get("slot").getAsInt();
+                        ItemStack item = ItemStack.of((CompoundNBT) JsonToNBT.parseTag(itemObject.get("item").getAsString()));
+
+                        guiItems.set(slot, item);
+                    }
+
+                    PlayerVault loadedVault = new PlayerVault(vaultId, name, guiItems, display);
+                    loadedVaults.add(loadedVault);
+                } catch (CommandSyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            attribute.vaults = loadedVaults;
+            return attribute;
+        }
+
+        @Override
+        public JsonElement serialize(VaultsAttribute src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject object = new JsonObject();
+            JsonArray vaults = new JsonArray();
+
+            for (PlayerVault vault : src.vaults) {
+                JsonObject vaultJson = new JsonObject();
+                vault.write(vaultJson);
+                vaults.add(vaultJson);
+            }
+
+            object.addProperty("uuid", src.uuid.toString());
+            object.add("vaults", vaults);
+
+            return object;
         }
     }
 }

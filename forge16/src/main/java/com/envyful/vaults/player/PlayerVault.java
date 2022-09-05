@@ -8,6 +8,7 @@ import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -121,6 +122,13 @@ public class PlayerVault {
 
         itemsTag.put("items", list);
         return itemsTag;
+    }
+
+    public void write(JsonObject object) {
+        object.addProperty("id", this.id);
+        object.addProperty("name", this.name);
+        object.addProperty("display", this.display.save(new CompoundNBT()).toString());
+        object.addProperty("items", this.getItemSave().toString());
     }
 
     public static class VaultContainer extends Container {
