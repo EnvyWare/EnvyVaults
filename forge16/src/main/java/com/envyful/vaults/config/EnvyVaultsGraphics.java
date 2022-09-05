@@ -62,6 +62,8 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         private VaultDisplay display = new VaultDisplay("%vault_name%", Lists.newArrayList("losers"));
 
+        private int maxPage = 3;
+
         public MainUI() {
         }
 
@@ -87,6 +89,10 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         public VaultDisplay getDisplay() {
             return this.display;
+        }
+
+        public int getMaxPage() {
+            return this.maxPage;
         }
     }
 
@@ -141,6 +147,8 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         private List<Integer> displayPositions = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
 
+        private int maxPage = 3;
+
         public VaultSettings() {
         }
 
@@ -162,6 +170,10 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         public ExtendedConfigItem getPreviousPageButton() {
             return this.previousPageButton;
+        }
+
+        public int getMaxPage() {
+            return this.maxPage;
         }
     }
 }

@@ -20,6 +20,13 @@ public class VaultEditUI {
         EnvyVaultsGraphics.VaultSettings config = EnvyVaults.getInstance().getGraphics().getSettingsUI();
         VaultsAttribute attribute = player.getAttribute(EnvyVaults.class);
 
+
+        if (page > config.getMaxPage()) {
+            page = 1;
+        } else if (page <= 0) {
+            page = config.getMaxPage();
+        }
+
         Pane pane = GuiFactory.paneBuilder()
                 .topLeftY(0)
                 .topLeftX(0)
@@ -50,12 +57,14 @@ public class VaultEditUI {
                     .build());
         }
 
+        int finalPage = page;
+
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, page + 1))
+                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage))
                 .extendedConfigItem(player, pane, config.getNextPageButton());
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault,page - 1))
+                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault,finalPage))
                 .extendedConfigItem(player, pane, config.getPreviousPageButton());
 
         UtilConfigItem.builder()

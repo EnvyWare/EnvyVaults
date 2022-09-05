@@ -19,6 +19,12 @@ public class VaultsMainUI {
         EnvyVaultsGraphics.MainUI config = EnvyVaults.getInstance().getGraphics().getMainUI();
         VaultsAttribute attribute = player.getAttribute(EnvyVaults.class);
 
+        if (page > config.getMaxPage()) {
+            page = 1;
+        } else if (page <= 0) {
+            page = config.getMaxPage();
+        }
+
         Pane pane = GuiFactory.paneBuilder()
                 .topLeftY(0)
                 .topLeftX(0)
@@ -58,12 +64,14 @@ public class VaultsMainUI {
                     .build());
         }
 
+        int finalPage = page;
+
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, page + 1))
+                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, finalPage))
                 .extendedConfigItem(player, pane, config.getNextPageButton());
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, page - 1))
+                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, finalPage))
                 .extendedConfigItem(player, pane, config.getPreviousPageButton());
 
         GuiFactory.guiBuilder()
