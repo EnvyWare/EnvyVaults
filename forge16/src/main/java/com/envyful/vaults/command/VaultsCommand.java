@@ -7,6 +7,7 @@ import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.ui.VaultsMainUI;
+import com.pixelmonmod.pixelmon.battles.attacks.specialAttacks.basic.Refresh;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
 @Command(
@@ -19,7 +20,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
         }
 )
 @Permissible("envy.vaults.command.vaults")
-@SubCommands({OpenCommand.class, ReloadCommand.class, RenameCommand.class})
+@SubCommands({OpenCommand.class, ReloadCommand.class, RenameCommand.class, RefreshPlayerCommand.class})
 public class VaultsCommand {
 
     @CommandProcessor

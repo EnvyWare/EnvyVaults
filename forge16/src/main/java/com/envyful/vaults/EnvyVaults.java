@@ -10,6 +10,7 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.player.SaveMode;
 import com.envyful.api.player.save.impl.JsonSaveManager;
@@ -21,6 +22,8 @@ import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.envyful.vaults.player.PlayerVault;
 import com.envyful.vaults.player.VaultsAttribute;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -75,6 +78,16 @@ public class EnvyVaults {
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
         SenderTypeFactory.register(new ForgeEnvyPlayerSenderType());
+
+        this.commandFactory.registerInjector(ServerPlayerEntity.class, (sender, args) -> {
+            ServerPlayerEntity player = UtilPlayer.findByName(args[0]);
+
+            if (player == null) {
+                sender.sendMessage(new StringTextComponent("Cannot find that player!"), Util.NIL_UUID);
+            }
+
+            return player;
+        });
 
         this.commandFactory.registerInjector(PlayerVault.class, (sender, args) -> {
             if (!(sender instanceof ServerPlayerEntity)) {

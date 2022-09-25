@@ -142,17 +142,21 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
             this.vaults = Lists.newArrayList();
         }
 
+        this.checkAllowedVaults();
+
+        for (int i = 0; i < this.allowedVaults; i++) {
+            if (this.getVault(i) == null) {
+                this.vaults.add(new PlayerVault(i));
+            }
+        }
+    }
+
+    public void checkAllowedVaults() {
         for (EnvyVaultsConfig.VaultGroups vault : this.manager.getConfig().getVaults()) {
             if (UtilPlayer.hasPermission(this.getParent().getParent(), vault.getPermission())) {
                 if (vault.getVaultNumber() > this.allowedVaults) {
                     this.allowedVaults = vault.getVaultNumber();
                 }
-            }
-        }
-
-        for (int i = 0; i < this.allowedVaults; i++) {
-            if (this.getVault(i) == null) {
-                this.vaults.add(new PlayerVault(i));
             }
         }
     }
