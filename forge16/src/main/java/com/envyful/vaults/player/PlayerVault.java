@@ -202,5 +202,30 @@ public class PlayerVault {
 
             this.vault.items = items;
         }
+
+        @Override
+        public ItemStack quickMoveStack(PlayerEntity p_82846_1_, int p_82846_2_) {
+            ItemStack itemstack = ItemStack.EMPTY;
+            Slot slot = this.slots.get(p_82846_2_);
+            if (slot != null && slot.hasItem()) {
+                ItemStack itemstack1 = slot.getItem();
+                itemstack = itemstack1.copy();
+                if (p_82846_2_ < 6 * 9) {
+                    if (!this.moveItemStackTo(itemstack1, 6 * 9, this.slots.size(), true)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (!this.moveItemStackTo(itemstack1, 0, 6 * 9, false)) {
+                    return ItemStack.EMPTY;
+                }
+
+                if (itemstack1.isEmpty()) {
+                    slot.set(ItemStack.EMPTY);
+                } else {
+                    slot.setChanged();
+                }
+            }
+
+            return itemstack;
+        }
     }
 }

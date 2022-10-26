@@ -14,8 +14,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 
-import java.lang.annotation.Target;
-
 @Command(
         value = "refresh",
         description = "Re-checks a player's vault limit"
