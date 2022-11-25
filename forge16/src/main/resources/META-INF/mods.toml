@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/EnvyWare/EnvyVaults/issues"
 
 [[mods]]
 modId="envyvaults"
-version="1.0.2"
+version="1.0.3"
 displayName="EnvyVaults"
 displayURL="https://github.com/EnvyWare"
 credits="https://github.com/EnvyWare"
