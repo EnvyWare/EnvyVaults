@@ -81,7 +81,7 @@ public class PlayerVault {
                 .name(display.getName().replace("%vault_name%", this.name));
 
         for (String s : display.getLore()) {
-            builder.lore(UtilChatColour.colour(s.replace("%vault_name%", this.name)));
+            builder.addLore(UtilChatColour.colour(s.replace("%vault_name%", this.name)));
         }
 
         return builder.build();
