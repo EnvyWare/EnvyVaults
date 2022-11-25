@@ -74,7 +74,7 @@ public class VaultEditUI {
 
         GuiFactory.guiBuilder()
                 .addPane(pane)
-                .height(6)
+                .height(config.getGuiSettings().getHeight())
                 .title(UtilChatColour.colour(config.getGuiSettings().getTitle()))
                 .setPlayerManager(EnvyVaults.getInstance().getPlayerManager())
                 .build().open(player);
