@@ -15,7 +15,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.AirItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -36,7 +35,7 @@ public class PlayerVault {
     private ItemStack display;
 
     public PlayerVault(int id) {
-        this(id, "vault#" + (id + 1));
+        this(id, "Vault #" + (id + 1));
     }
 
     public PlayerVault(int id, String name) {
