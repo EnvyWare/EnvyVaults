@@ -6,7 +6,10 @@ import com.envyful.api.command.annotate.Permissible;
 import com.envyful.api.command.annotate.SubCommands;
 import com.envyful.api.command.annotate.executor.Argument;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
+import com.envyful.api.command.annotate.executor.Completable;
 import com.envyful.api.command.annotate.executor.Sender;
+import com.envyful.api.forge.command.completion.number.IntCompletionData;
+import com.envyful.api.forge.command.completion.number.IntegerTabCompleter;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.player.PlayerVault;
 
@@ -22,7 +25,8 @@ import com.envyful.vaults.player.PlayerVault;
 public class OpenCommand {
 
     @CommandProcessor
-    public void onCommand(@Sender ForgeEnvyPlayer sender, @Argument PlayerVault vault) {
+    public void onCommand(@Sender ForgeEnvyPlayer sender,
+                          @Completable(IntegerTabCompleter.class) @IntCompletionData(min = 1) @Argument PlayerVault vault) {
         vault.open(sender);
         //TOOD: send message
     }
