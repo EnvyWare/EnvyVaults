@@ -6,6 +6,7 @@ import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
 import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
+import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
@@ -15,7 +16,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.AirItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -36,7 +36,7 @@ public class PlayerVault {
     private ItemStack display;
 
     public PlayerVault(int id) {
-        this(id, "vault#" + (id + 1));
+        this(id, EnvyVaults.getConfig().getDefaultVaultName().replace("%id%", String.valueOf(id + 1)));
     }
 
     public PlayerVault(int id, String name) {

@@ -145,12 +145,12 @@ public class EnvyVaults {
         return this.commandFactory;
     }
 
-    public EnvyVaultsConfig getConfig() {
-        return this.config;
+    public static EnvyVaultsConfig getConfig() {
+        return instance.config;
     }
 
-    public EnvyVaultsGraphics getGraphics() {
-        return this.graphics;
+    public static EnvyVaultsGraphics getGraphics() {
+        return instance.graphics;
     }
 
     public Database getDatabase() {

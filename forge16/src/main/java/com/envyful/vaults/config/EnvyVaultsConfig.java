@@ -40,6 +40,8 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
                     ))
     );
 
+    private String defaultVaultName = "Vault #%id%";
+
     public EnvyVaultsConfig() {
         super();
     }
@@ -58,6 +60,10 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
 
     public List<ConfigItem> getShowOptions() {
         return Lists.newArrayList(this.showOptions.values());
+    }
+
+    public String getDefaultVaultName() {
+        return this.defaultVaultName;
     }
 
     @ConfigSerializable
