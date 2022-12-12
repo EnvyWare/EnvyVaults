@@ -42,6 +42,11 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
 
     private String defaultVaultName = "Vault #%id%";
 
+    private ConfigItem defaultDisplayItem = ConfigItem.builder()
+            .type("minecraft:stone")
+            .amount(1)
+            .build();
+
     public EnvyVaultsConfig() {
         super();
     }
@@ -64,6 +69,10 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
 
     public String getDefaultVaultName() {
         return this.defaultVaultName;
+    }
+
+    public ConfigItem getDefaultDisplayItem() {
+        return this.defaultDisplayItem;
     }
 
     @ConfigSerializable

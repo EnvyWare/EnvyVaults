@@ -7,6 +7,7 @@ import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.EnvyVaults;
+import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
@@ -40,7 +41,7 @@ public class PlayerVault {
     }
 
     public PlayerVault(int id, String name) {
-        this(id, name, Lists.newArrayList(), new ItemBuilder().type(Items.STONE).build());
+        this(id, name, Lists.newArrayList(), UtilConfigItem.fromConfigItem(EnvyVaults.getConfig().getDefaultDisplayItem()));
     }
 
     public PlayerVault(int id, String name, List<ItemStack> items, ItemStack display) {
