@@ -19,6 +19,7 @@ import com.envyful.vaults.command.ForgeEnvyPlayerSenderType;
 import com.envyful.vaults.command.VaultsCommand;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
+import com.envyful.vaults.config.Queries;
 import com.envyful.vaults.player.PlayerVault;
 import com.envyful.vaults.player.VaultsAttribute;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -33,6 +34,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Mod(EnvyVaults.MOD_ID)
 public class EnvyVaults {
@@ -71,7 +75,17 @@ public class EnvyVaults {
         if (this.config.getSaveMode() == SaveMode.MYSQL) {
             UtilConcurrency.runAsync(() -> {
                 this.database = new SimpleHikariDatabase(this.config.getDatabaseDetails());
+                this.createTable();
             });
+        }
+    }
+
+    private void createTable() {
+        try (Connection connection = this.database.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(Queries.CREATE_TABLE)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
