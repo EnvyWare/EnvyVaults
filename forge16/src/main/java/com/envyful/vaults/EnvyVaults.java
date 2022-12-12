@@ -19,6 +19,7 @@ import com.envyful.vaults.command.ForgeEnvyPlayerSenderType;
 import com.envyful.vaults.command.VaultsCommand;
 import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
+import com.envyful.vaults.config.EnvyVaultsLocale;
 import com.envyful.vaults.config.Queries;
 import com.envyful.vaults.player.PlayerVault;
 import com.envyful.vaults.player.VaultsAttribute;
@@ -51,6 +52,7 @@ public class EnvyVaults {
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private EnvyVaultsConfig config;
+    private EnvyVaultsLocale locale;
     private EnvyVaultsGraphics graphics;
     private Database database;
 
@@ -137,6 +139,7 @@ public class EnvyVaults {
     public void reloadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(EnvyVaultsConfig.class);
+            this.locale = YamlConfigFactory.getInstance(EnvyVaultsLocale.class);
             this.graphics = YamlConfigFactory.getInstance(EnvyVaultsGraphics.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -169,5 +172,9 @@ public class EnvyVaults {
 
     public Database getDatabase() {
         return this.database;
+    }
+
+    public static EnvyVaultsLocale getLocale() {
+        return instance.locale;
     }
 }
