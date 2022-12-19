@@ -116,13 +116,18 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
     public void save() {
         try (Connection connection = this.manager.getDatabase().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(Queries.UPDATE_DATA)) {
+            boolean hasData = false;
+
             for (PlayerVault vault : this.vaults) {
                 preparedStatement.setString(1, this.uuid.toString());
                 vault.save(preparedStatement);
+                hasData = true;
                 preparedStatement.addBatch();
             }
 
-            preparedStatement.executeUpdate();
+            if (hasData) {
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

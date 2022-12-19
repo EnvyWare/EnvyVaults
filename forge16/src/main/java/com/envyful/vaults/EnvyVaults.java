@@ -158,10 +158,6 @@ public class EnvyVaults {
         return this.playerManager;
     }
 
-    public ForgeCommandFactory getCommandFactory() {
-        return this.commandFactory;
-    }
-
     public static EnvyVaultsConfig getConfig() {
         return instance.config;
     }
