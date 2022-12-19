@@ -19,10 +19,18 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
 
     private List<String> defaultCommand = Lists.newArrayList();
 
+    private List<String> openMessage = Lists.newArrayList(
+            "Opened %vault%"
+    );
+
     public EnvyVaultsLocale() {
     }
 
     public List<String> getDefaultCommand() {
         return this.defaultCommand;
+    }
+
+    public List<String> getOpenMessage() {
+        return this.openMessage;
     }
 }
