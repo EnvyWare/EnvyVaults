@@ -38,7 +38,7 @@ public class AdminViewCommand {
             return;
         }
 
-        PlayerVault vault = playerAttribute.getVault(id);
+        PlayerVault vault = playerAttribute.getVault(id - 1);
 
         if (vault == null) {
             sender.message(EnvyVaults.getLocale().getPlayerDoesntHaveVaultWithid());
