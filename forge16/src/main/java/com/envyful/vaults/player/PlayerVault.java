@@ -75,11 +75,23 @@ public class PlayerVault {
             UtilForgeConcurrency.runWhenTrue(__ -> player.getParent().containerMenu == player.getParent().containerMenu, () -> {
                 player.getParent().containerMenu = container;
                 player.getParent().containerCounter = 1;
-                player.getParent().connection.send(new SOpenWindowPacket(player.getParent().containerCounter, ContainerType.GENERIC_9x6, new StringTextComponent(this.name)));
+                player.getParent().connection.send(new SOpenWindowPacket(player.getParent().containerCounter, this.getContainerType(), new StringTextComponent(this.name)));
                 player.getParent().refreshContainer(container, container.getItems());
                 player.getParent().refreshContainer(player.getParent().inventoryMenu, player.getParent().inventoryMenu.getItems());
             });
         });
+    }
+
+    private ContainerType<?> getContainerType() {
+        switch(EnvyVaults.getConfig().getVaultHeight()) {
+            case 6: default: return ContainerType.GENERIC_9x6;
+            case 5: return ContainerType.GENERIC_9x5;
+            case 4: return ContainerType.GENERIC_9x4;
+            case 3: return ContainerType.GENERIC_9x3;
+            case 2: return ContainerType.GENERIC_9x2;
+            case 1: return ContainerType.GENERIC_9x1;
+        }
+
     }
 
     public void setAdmin(UUID owner) {

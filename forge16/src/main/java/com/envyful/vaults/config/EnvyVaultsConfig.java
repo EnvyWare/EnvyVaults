@@ -2,14 +2,12 @@ package com.envyful.vaults.config;
 
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.type.ConfigItem;
-import com.envyful.api.config.type.ExtendedConfigItem;
 import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.player.SaveMode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.pixelmonmod.pixelmon.api.util.helpers.SpriteItemHelper;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -39,6 +37,8 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
                             "palette", new ConfigItem.NBTValue("string", "none")
                     ))
     );
+
+    private int vaultHeight = 6;
 
     private String defaultVaultName = "Vault #%id%";
 
@@ -73,6 +73,10 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
 
     public ConfigItem getDefaultDisplayItem() {
         return this.defaultDisplayItem;
+    }
+
+    public int getVaultHeight() {
+        return this.vaultHeight;
     }
 
     @ConfigSerializable
