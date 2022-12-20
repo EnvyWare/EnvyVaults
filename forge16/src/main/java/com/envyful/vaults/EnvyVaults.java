@@ -11,6 +11,7 @@ import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.api.forge.player.ForgePlayerManager;
+import com.envyful.api.forge.player.UsernameFactory;
 import com.envyful.api.forge.player.util.UtilPlayer;
 import com.envyful.api.gui.factory.GuiFactory;
 import com.envyful.api.player.SaveMode;
@@ -58,6 +59,7 @@ public class EnvyVaults {
     private Database database;
 
     public EnvyVaults() {
+        UsernameFactory.init();
         instance = this;
         UtilLogger.setLogger(this.logger);
         MinecraftForge.EVENT_BUS.register(this);

@@ -1,17 +1,11 @@
 package com.envyful.vaults.config;
 
 import com.envyful.api.config.data.ConfigPath;
-import com.envyful.api.config.type.ConfigItem;
-import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
-import com.envyful.api.player.SaveMode;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
-import java.util.Map;
 
 @ConfigSerializable
 @ConfigPath("config/EnvyVaults/locale.yml")
@@ -35,6 +29,14 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
             "&e&l(!) &eYou've renamed your vault from %old_name% to %name%"
     );
 
+    private List<String> cannotFindPlayer = Lists.newArrayList(
+            "&c&l(!) &cCannot find that player"
+    );
+
+    private List<String> playerDoesntHaveVaultWithid = Lists.newArrayList(
+            "&c&l(!) &cPlayer does not have a vault with that id!"
+    );
+
     public EnvyVaultsLocale() {
     }
 
@@ -56,5 +58,13 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
 
     public List<String> getRenamedVaultMessage() {
         return this.renamedVaultMessage;
+    }
+
+    public List<String> getCannotFindPlayer() {
+        return this.cannotFindPlayer;
+    }
+
+    public List<String> getPlayerDoesntHaveVaultWithid() {
+        return this.playerDoesntHaveVaultWithid;
     }
 }

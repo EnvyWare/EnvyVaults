@@ -1,5 +1,6 @@
 package com.envyful.vaults.player;
 
+import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.concurrency.UtilForgeConcurrency;
@@ -7,8 +8,8 @@ import com.envyful.api.forge.config.UtilConfigItem;
 import com.envyful.api.forge.items.ItemBuilder;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.EnvyVaults;
-import com.envyful.vaults.config.EnvyVaultsConfig;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
+import com.envyful.vaults.config.Queries;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,16 +19,17 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.server.SCloseWindowPacket;
 import net.minecraft.network.play.server.SOpenWindowPacket;
 import net.minecraft.util.text.StringTextComponent;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerVault {
 
@@ -35,6 +37,8 @@ public class PlayerVault {
     private String name;
     private List<ItemStack> items;
     private ItemStack display;
+    private boolean admin = false;
+    private UUID owner = null;
 
     public PlayerVault(int id) {
         this(id, EnvyVaults.getConfig().getDefaultVaultName().replace("%id%", String.valueOf(id + 1)));
@@ -76,6 +80,11 @@ public class PlayerVault {
                 player.getParent().refreshContainer(player.getParent().inventoryMenu, player.getParent().inventoryMenu.getItems());
             });
         });
+    }
+
+    public void setAdmin(UUID owner) {
+        this.admin = true;
+        this.owner = owner;
     }
 
     public ItemStack getDisplay(EnvyVaultsGraphics.VaultDisplay display) {
@@ -202,6 +211,19 @@ public class PlayerVault {
             }
 
             this.vault.items = items;
+
+            if (this.vault.admin) {
+                UtilConcurrency.runAsync(() -> {
+                    try (Connection connection = EnvyVaults.getInstance().getDatabase().getConnection();
+                         PreparedStatement preparedStatement = connection.prepareStatement(Queries.UPDATE_DATA)) {
+                        preparedStatement.setString(1, this.vault.owner.toString());
+                        vault.save(preparedStatement);
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         }
 
         @Override

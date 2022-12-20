@@ -21,7 +21,7 @@ import net.minecraft.util.Util;
         }
 )
 @Permissible("envy.vaults.command.vaults")
-@SubCommands({OpenCommand.class, ReloadCommand.class, RenameCommand.class, RefreshPlayerCommand.class})
+@SubCommands({OpenCommand.class, ReloadCommand.class, RenameCommand.class, RefreshPlayerCommand.class, AdminViewCommand.class})
 public class VaultsCommand {
 
     @CommandProcessor
