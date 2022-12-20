@@ -23,6 +23,14 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
             "Opened %vault%"
     );
 
+    private List<String> invalidIdMessage = Lists.newArrayList(
+            "&c&l(!) &cInvalid vault id!"
+    );
+
+    private List<String> notGotThatManyVaultsMessage = Lists.newArrayList(
+            "&c&l(!) &cYou do not have that many vaults!"
+    );
+
     public EnvyVaultsLocale() {
     }
 
@@ -32,5 +40,13 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
 
     public List<String> getOpenMessage() {
         return this.openMessage;
+    }
+
+    public List<String> getInvalidIdMessage() {
+        return this.invalidIdMessage;
+    }
+
+    public List<String> getNotGotThatManyVaultsMessage() {
+        return this.notGotThatManyVaultsMessage;
     }
 }

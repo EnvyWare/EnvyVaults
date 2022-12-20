@@ -6,6 +6,7 @@ import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.database.Database;
 import com.envyful.api.database.impl.SimpleHikariDatabase;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.gui.factory.ForgeGuiFactory;
 import com.envyful.api.forge.player.ForgeEnvyPlayer;
@@ -121,13 +122,16 @@ public class EnvyVaults {
                     return vault;
                 }
 
-                //TODO: error message
+                for (String s : this.locale.getInvalidIdMessage()) {
+                    sender.sendMessage(UtilChatColour.colour(s), Util.NIL_UUID);
+                }
                 return null;
             }
 
             if (id >= attribute.getVaults().size()) {
-                //TOOD: error message
-                return null;
+                for (String s : this.locale.getNotGotThatManyVaultsMessage()) {
+                    sender.sendMessage(UtilChatColour.colour(s), Util.NIL_UUID);
+                }                return null;
             }
 
             return attribute.getVault(id);
