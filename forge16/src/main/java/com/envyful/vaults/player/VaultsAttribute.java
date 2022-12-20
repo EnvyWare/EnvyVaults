@@ -92,10 +92,10 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
                 List<ItemStack> guiItems = Lists.newArrayList();
 
                 for (INBT inbt : itemList) {
-                    CompoundNBT tag = (CompoundNBT) inbt;
+                    CompoundNBT tag = (CompoundNBT)inbt;
                     int slot = tag.getInt("slot");
                     ItemStack item = ItemStack.of(tag.getCompound("item"));
-
+                    guiItems.add(ItemStack.EMPTY);
                     guiItems.set(slot, item);
                 }
 
@@ -126,7 +126,7 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
             }
 
             if (hasData) {
-                preparedStatement.executeUpdate();
+                preparedStatement.executeBatch();
             }
         } catch (SQLException e) {
             e.printStackTrace();

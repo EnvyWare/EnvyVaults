@@ -128,8 +128,8 @@ public class PlayerVault {
     public void save(PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setInt(2, this.id);
         preparedStatement.setString(3, this.name);
-        preparedStatement.setString(4, this.display.save(new CompoundNBT()).toString());
-        preparedStatement.setString(5, this.getItemSave().toString());
+        preparedStatement.setString(4, this.getItemSave().toString());
+        preparedStatement.setString(5, this.display.save(new CompoundNBT()).toString());
     }
 
     private CompoundNBT getItemSave() {
@@ -150,6 +150,7 @@ public class PlayerVault {
         }
 
         itemsTag.put("items", list);
+        System.out.println(itemsTag.toString());
         return itemsTag;
     }
 
