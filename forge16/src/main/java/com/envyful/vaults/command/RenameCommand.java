@@ -21,7 +21,11 @@ public class RenameCommand {
 
     @CommandProcessor
     public void onCommand(@Sender ForgeEnvyPlayer sender, @Argument PlayerVault vault, String[] args) {
+        String oldName = vault.getName();
         vault.rename(Strings.join(args, " "));
-        //TODO: send message
+
+        for (String s : EnvyVaults.getLocale().getRenamedVaultMessage()) {
+            sender.message(s.replace("%old_name%", oldName).replace("%name%", vault.getName()));
+        }
     }
 }

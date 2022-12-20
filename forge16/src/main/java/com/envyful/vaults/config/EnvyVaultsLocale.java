@@ -31,6 +31,10 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
             "&c&l(!) &cYou do not have that many vaults!"
     );
 
+    private List<String> renamedVaultMessage = Lists.newArrayList(
+            "&e&l(!) &eYou've renamed your vault from %old_name% to %name%"
+    );
+
     public EnvyVaultsLocale() {
     }
 
@@ -48,5 +52,9 @@ public class EnvyVaultsLocale extends AbstractYamlConfig {
 
     public List<String> getNotGotThatManyVaultsMessage() {
         return this.notGotThatManyVaultsMessage;
+    }
+
+    public List<String> getRenamedVaultMessage() {
+        return this.renamedVaultMessage;
     }
 }
