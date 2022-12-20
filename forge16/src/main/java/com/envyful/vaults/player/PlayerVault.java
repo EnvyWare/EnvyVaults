@@ -69,13 +69,14 @@ public class PlayerVault {
     public void open(ForgeEnvyPlayer player) {
         UtilForgeConcurrency.runSync(() -> {
             player.getParent().closeContainer();
+            ContainerType<?> containerType = this.getContainerType();
 
-            PlayerVault.VaultContainer container = new VaultContainer(this, player.getParent());
+            PlayerVault.VaultContainer container = new VaultContainer(this, containerType, EnvyVaults.getConfig().getVaultHeight(), player.getParent());
 
             UtilForgeConcurrency.runWhenTrue(__ -> player.getParent().containerMenu == player.getParent().containerMenu, () -> {
                 player.getParent().containerMenu = container;
                 player.getParent().containerCounter = 1;
-                player.getParent().connection.send(new SOpenWindowPacket(player.getParent().containerCounter, this.getContainerType(), new StringTextComponent(this.name)));
+                player.getParent().connection.send(new SOpenWindowPacket(player.getParent().containerCounter, containerType, new StringTextComponent(this.name)));
                 player.getParent().refreshContainer(container, container.getItems());
                 player.getParent().refreshContainer(player.getParent().inventoryMenu, player.getParent().inventoryMenu.getItems());
             });
@@ -163,8 +164,8 @@ public class PlayerVault {
 
         private PlayerVault vault;
 
-        public VaultContainer(PlayerVault vault, ServerPlayerEntity player) {
-            super(ContainerType.GENERIC_9x6, 1);
+        public VaultContainer(PlayerVault vault, ContainerType<?> containerType, int height, ServerPlayerEntity player) {
+            super(containerType, 1);
 
             this.vault = vault;
             Inventory inventory = new Inventory(6 * 9);
@@ -179,7 +180,7 @@ public class PlayerVault {
 
             int i = 2 * 18;
 
-            for(int j = 0; j < 6; ++j) {
+            for(int j = 0; j < height; ++j) {
                 for(int k = 0; k < 9; ++k) {
                     this.addSlot(new Slot(inventory, k + j * 9, 8 + k * 18, 18 + j * 18));
                 }
