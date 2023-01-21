@@ -150,7 +150,6 @@ public class PlayerVault {
         }
 
         itemsTag.put("items", list);
-        System.out.println(itemsTag.toString());
         return itemsTag;
     }
 

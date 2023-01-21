@@ -57,14 +57,15 @@ public class VaultEditUI {
                     .build());
         }
 
+        int pages = config.getMaxPage();
         int finalPage = page;
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage))
+                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage == pages ? 1 : finalPage + 1))
                 .extendedConfigItem(player, pane, config.getNextPageButton());
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault,finalPage))
+                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage == 1 ? pages : finalPage - 1))
                 .extendedConfigItem(player, pane, config.getPreviousPageButton());
 
         UtilConfigItem.builder()
