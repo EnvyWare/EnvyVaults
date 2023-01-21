@@ -10,6 +10,7 @@ import com.envyful.api.forge.player.ForgeEnvyPlayer;
 import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.envyful.vaults.config.Queries;
+import com.envyful.vaults.ui.VaultsMainUI;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
@@ -224,6 +225,8 @@ public class PlayerVault {
             }
 
             this.vault.items = items;
+
+            VaultsMainUI.open(EnvyVaults.getInstance().getPlayerManager().getPlayer((ServerPlayerEntity) playerIn), 1);
 
             if (this.vault.admin) {
                 UtilConcurrency.runAsync(() -> {
