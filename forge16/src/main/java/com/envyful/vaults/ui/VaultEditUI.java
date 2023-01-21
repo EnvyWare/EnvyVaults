@@ -44,11 +44,11 @@ public class VaultEditUI {
             int posX = pos % 9;
             int posY = pos / 9;
 
-            if (showOptions.size() <= i) {
+            if (showOptions.size() <= (i + ((page - 1) * displayPositions.size()))) {
                 break;
             }
 
-            ConfigItem configItem = showOptions.get(i);
+            ConfigItem configItem = showOptions.get(i + ((page - 1) * displayPositions.size()));
             pane.set(posX, posY, GuiFactory.displayableBuilder(UtilConfigItem.fromConfigItem(configItem))
                     .clickHandler((envyPlayer, clickType) -> {
                         vault.setDisplay(configItem);
@@ -61,11 +61,11 @@ public class VaultEditUI {
         int finalPage = page;
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage == pages ? 1 : finalPage + 1))
+                .combinedClickHandler(config.getNextPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage + 1))
                 .extendedConfigItem(player, pane, config.getNextPageButton());
 
         UtilConfigItem.builder()
-                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage == 1 ? pages : finalPage - 1))
+                .combinedClickHandler(config.getPreviousPageButton(), (envyPlayer, clickType) -> open(player, vault, finalPage - 1))
                 .extendedConfigItem(player, pane, config.getPreviousPageButton());
 
         UtilConfigItem.builder()
