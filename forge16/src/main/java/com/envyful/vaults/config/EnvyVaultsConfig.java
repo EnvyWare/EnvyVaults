@@ -7,7 +7,6 @@ import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.player.SaveMode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.util.List;
@@ -28,14 +27,20 @@ public class EnvyVaultsConfig extends AbstractYamlConfig {
     );
 
     private Map<String, ConfigItem> showOptions = ImmutableMap.of(
-            "one", new ConfigItem("minecraft:diamond", 1, "this isn't even important", Lists.newArrayList()),
-            "two", new ConfigItem("pixelmon:pixelmon_sprite", 1, "", Lists.newArrayList(), Maps.newHashMap(),
-                    ImmutableMap.of(
-                            "ndex", new ConfigItem.NBTValue("short", "1"),
-                            "form", new ConfigItem.NBTValue("string", ""),
-                            "gender", new ConfigItem.NBTValue("byte", "0"),
-                            "palette", new ConfigItem.NBTValue("string", "none")
-                    ))
+            "one", ConfigItem.builder()
+                            .type("minecraft:diamond")
+                            .amount(1)
+                            .name("this isn't even important")
+                    .build(),
+            "two", ConfigItem.builder()
+                    .type("pixelmon:pixelmon_sprite")
+                    .amount(1)
+                    .name("")
+                    .nbt("ndex", new ConfigItem.NBTValue("short", "1"))
+                    .nbt("form", new ConfigItem.NBTValue("string", ""))
+                    .nbt("gender", new ConfigItem.NBTValue("byte", "0"))
+                    .nbt("palette", new ConfigItem.NBTValue("string", "none"))
+                    .build()
     );
 
     private int vaultHeight = 6;

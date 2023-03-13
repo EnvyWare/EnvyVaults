@@ -5,9 +5,7 @@ import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.type.ConfigInterface;
 import com.envyful.api.config.type.ConfigItem;
 import com.envyful.api.config.type.ExtendedConfigItem;
-import com.envyful.api.config.type.SQLDatabaseDetails;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
-import com.envyful.api.player.SaveMode;
 import com.envyful.api.type.Pair;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -39,7 +37,7 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         private ConfigInterface guiSettings = new ConfigInterface(
                 "EnvyVaults", 6, ConfigInterface.FillType.BLOCK.name(), ImmutableMap.of(
-                "one", new ConfigItem("minecraft:black_stained_glass_pane", 1, "", Lists.newArrayList())
+                "one", ConfigItem.builder().type("minecraft:black_stained_glass_pane").amount(1).name("").build()
         )
         );
 
@@ -56,9 +54,11 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
                 .positions(Pair.of(3, 2))
                 .build();
 
-        private ConfigItem cannotAccessThisVault = new ConfigItem(
-                "minecraft:barrier", 1, "&cMore perms", Lists.newArrayList()
-        );
+        private ConfigItem cannotAccessThisVault = ConfigItem.builder()
+                .type("minecraft:barrier")
+                .name("&cMore perms")
+                .amount(1)
+                .build();
 
         private VaultDisplay display = new VaultDisplay("%vault_name%", Lists.newArrayList("losers"));
 
@@ -124,7 +124,7 @@ public class EnvyVaultsGraphics extends AbstractYamlConfig {
 
         private ConfigInterface guiSettings = new ConfigInterface(
                 "EnvyVaults", 6, ConfigInterface.FillType.BLOCK.name(), ImmutableMap.of(
-                "one", new ConfigItem("minecraft:black_stained_glass_pane", 1, "", Lists.newArrayList()))
+                "one", ConfigItem.builder().type("minecraft:black_stained_glass_pane").amount(1).name("").build())
         );
 
         private ExtendedConfigItem backButton = ExtendedConfigItem.builder()
