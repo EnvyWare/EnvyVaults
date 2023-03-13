@@ -164,6 +164,13 @@ public class VaultsAttribute extends AbstractForgeAttribute<EnvyVaults> {
                 }
             }
         }
+
+        for (int i = 99; i > 0; i--) {
+            if (UtilPlayer.hasPermission(this.getParent().getParent(), "vault.extra." + i)) {
+                this.allowedVaults += i;
+                break;
+            }
+        }
     }
 
     public static class TypeAdapter implements JsonDeserializer<VaultsAttribute>, JsonSerializer<VaultsAttribute> {
