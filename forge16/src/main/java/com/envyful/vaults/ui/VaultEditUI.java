@@ -49,6 +49,11 @@ public class VaultEditUI {
             }
 
             ConfigItem configItem = showOptions.get(i + ((page - 1) * displayPositions.size()));
+
+            if (!configItem.isEnabled()) {
+                continue;
+            }
+
             pane.set(posX, posY, GuiFactory.displayableBuilder(UtilConfigItem.fromConfigItem(configItem))
                     .clickHandler((envyPlayer, clickType) -> {
                         vault.setDisplay(configItem);
