@@ -10,7 +10,6 @@ import com.envyful.api.gui.pane.Pane;
 import com.envyful.vaults.EnvyVaults;
 import com.envyful.vaults.config.EnvyVaultsGraphics;
 import com.envyful.vaults.player.PlayerVault;
-import com.envyful.vaults.player.VaultsAttribute;
 
 import java.util.List;
 
@@ -18,8 +17,6 @@ public class VaultEditUI {
 
     public static void open(ForgeEnvyPlayer player, PlayerVault vault, int page) {
         EnvyVaultsGraphics.VaultSettings config = EnvyVaults.getInstance().getGraphics().getSettingsUI();
-        VaultsAttribute attribute = player.getAttribute(EnvyVaults.class);
-
 
         if (page > config.getMaxPage()) {
             page = 1;
@@ -62,7 +59,6 @@ public class VaultEditUI {
                     .build());
         }
 
-        int pages = config.getMaxPage();
         int finalPage = page;
 
         UtilConfigItem.builder()
