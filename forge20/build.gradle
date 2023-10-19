@@ -1,0 +1,62 @@
+plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+forgeVersion = "1.20.2"
+
+minecraft {
+    mappings channel: 'official', version: '1.20.2'
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.2-48.0.30'
+
+    implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
+
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.5.2'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.5.2') {
+        transitive = false;
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    setArchiveClassifier('')
+    setArchiveBaseName("${rootProject.name}-Forge")
+
+    relocate('org.spongepowered.configurate', 'com.envyful.vaults.shade.configurate')
+    relocate('org.yaml.snakeyaml', 'com.envyful.vaults.shade.snakeyaml')
+    relocate('io.leangen.geantyref', 'com.envyful.vaults.shade.geantyref')
+    relocate('com.zaxxer', 'com.envyful.vaults.shade.hikari')
+    relocate('org.slf4j', 'com.envyful.vaults.shade.slf4j')
+    relocate('com.envyful.api', 'com.envyful.vaults.shade.envy.api')
+    relocate('org.bstats', 'com.envyful.vaults.shade.bstats')
+    relocate('org.apache.logging', 'com.envyful.vaults.shade.log4j')
+    relocate('io.netty', 'com.envyful.vaults.shade.netty')
+    relocate('io.lettuce', 'com.envyful.vaults.shade.lettuce')
+    relocate('com.cronutils', 'com.envyful.vaults.shade.cronutils')
+    relocate('com.cronutils', 'com.envyful.vaults.shade.cronutils')
+    relocate('com.sun.el', 'com.envyful.vaults.shade.sun.el')
+    relocate('org.reactivestreams', 'com.envyful.vaults.shade.reactivestreams')
+    relocate('reactor', 'com.envyful.vaults.shade.reactor')
+
+    exclude "com/google/**"
+    exclude "javax/**"
+    exclude "**/module-info.class"
+    exclude "**/*.properties"
+    exclude "**/*.xml"
+    exclude "META-INF/versions/9/**"
+    exclude "META-INF/native-image/**"
+    exclude "META-INF/services/**"
+}
+
+jar.finalizedBy('shadowJar')
+shadowJar.finalizedBy('reobfJar')
+build.finalizedBy('versionedRelease')
